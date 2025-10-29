@@ -1,0 +1,1 @@
+﻿// Config placeholder (no implementation)

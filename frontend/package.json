@@ -1,0 +1,14 @@
+﻿{
+  "name": "confo-champs-frontend",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "start": "echo placeholder-start && exit 0"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.1",
+    "axios": "^1.7.4"
+  }
+}

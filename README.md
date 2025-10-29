@@ -36,7 +36,8 @@ This repository contains the source code and documentation for the Conference ro
 ## 🚀 Getting Started
 
 ### Prerequisites
-- [List your prerequisites here]
+- Node.js 18+ and npm
+- MongoDB (local or Atlas)
 
 ### Installation
 1. Clone the repository
@@ -47,24 +48,75 @@ This repository contains the source code and documentation for the Conference ro
 
 2. Install dependencies
    ```bash
-   # Add your installation commands here
+   # Backend
+   cd backend
+   npm install
+
+   # Frontend
+   cd ../frontend
+   npm install
    ```
 
-3. Run the application
+3. Environment (backend)
    ```bash
-   # Add your run commands here
+   cd ../backend
+   cp .env.example .env
+   # Edit .env if needed: PORT, MONGO_URI, JWT_SECRET
+   ```
+
+4. Run the application
+   ```bash
+   # Terminal A - backend (from repo root)
+   cd backend
+   npm run dev
+
+   # Terminal B - frontend (from repo root)
+   cd frontend
+   npm start
    ```
 
 ## 📁 Project Structure
 
 ```
 PESU_RR_CSE_D_P17_Conference_room_booking_system_Confo-Champs/
-├── src/                 # Source code
-├── docs/               # Documentation
-├── tests/              # Test files
-├── .github/            # GitHub workflows and templates
-├── README.md          # This file
-└── ...
+├── backend/
+│   ├── src/
+│   │   ├── index.js          # server entry (placeholder)
+│   │   ├── routes.js         # routes (placeholder)
+│   │   ├── controllers.js    # controllers (placeholder)
+│   │   ├── models.js         # data models (placeholder)
+│   │   ├── services.js       # services (placeholder)
+│   │   ├── validators.js     # validators (placeholder)
+│   │   └── config.js         # config (placeholder)
+│   └── .env.example
+├── frontend/
+│   ├── public/
+│   │   └── index.html        # static html (placeholder)
+│   └── src/
+│       ├── index.jsx         # app entry (placeholder)
+│       ├── App.jsx           # root component (placeholder)
+│       ├── api.js            # api client (placeholder)
+│       └── pages/            # feature pages (placeholders)
+│           ├── Auth/
+│           │   ├── Login.jsx
+│           │   └── Register.jsx
+│           ├── Rooms/
+│           │   ├── RoomList.jsx
+│           │   └── RoomDetails.jsx
+│           ├── Bookings/
+│           │   ├── BookingForm.jsx
+│           │   └── BookingHistory.jsx
+│           ├── Reports/
+│           │   ├── AdminDashboard.jsx
+│           │   └── ReportsPage.jsx
+│           └── NotFound.jsx
+├── docs/
+│   └── backlog/
+│       ├── SPRINT_1.md
+│       └── SPRINT_2.md
+├── .github/
+├── .gitignore
+└── README.md
 ```
 
 ## 🛠️ Development Guidelines
