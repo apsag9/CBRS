@@ -2,6 +2,22 @@ import jwt from 'jsonwebtoken';
 import { config } from './config.js';
 import { User } from './models.js';
 
+export function checkSessionTimeout(req, res, next) {
+  if (req.session && req.session.lastActivity) {
+    const currentTime = Date.now();
+    const lastActivity = new Date(req.session.lastActivity).getTime();
+    const sessionTimeout = config.session.cookie.maxAge;
+
+    if (currentTime - lastActivity > sessionTimeout) {
+      return res.status(440).json({ message: 'Session expired' });
+    }
+  }
+
+  // Update last activity time
+  req.session.lastActivity = new Date();
+  next();
+}
+
 export async function authenticate(req, res, next) {
   try {
     const authHeader = req.headers.authorization;

@@ -1,6 +1,27 @@
 ﻿import { User } from './models.js';
 import { hashPassword, verifyPassword, generateJwtToken } from './services.js';
 
+function validateEmail(email) {
+  if (!email || typeof email !== 'string') {
+    return { isValid: false, errors: ['Email is required'] };
+  }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return { isValid: false, errors: ['Invalid email format'] };
+  }
+  return { isValid: true, errors: [] };
+}
+
+function validatePassword(password) {
+  if (!password || typeof password !== 'string') {
+    return { isValid: false, errors: ['Password is required'] };
+  }
+  if (password.length < 8) {
+    return { isValid: false, errors: ['Password must be at least 8 characters long'] };
+  }
+  return { isValid: true, errors: [] };
+}
+
 export async function register(req, res) {
   try {
     const { email, password, role } = req.body;
@@ -34,7 +55,14 @@ export async function register(req, res) {
       role: user.role 
     });
   } catch (err) {
-    return res.status(500).json({ message: 'Registration failed' });
+    console.error('Registration error:', err);
+    if (err.code === 11000) {
+      return res.status(409).json({ message: 'Email already registered' });
+    }
+    return res.status(500).json({ 
+      message: 'Registration failed',
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
   }
 }
 
@@ -55,28 +83,27 @@ export async function login(req, res) {
     // Find user and verify credentials
     const user = await User.findOne({ email });
     if (!user || !(await verifyPassword(password, user.passwordHash))) {
-      // Use a generic error message for security
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Generate auth token with user role
+    // Generate token
     const token = generateJwtToken({ 
       sub: user._id.toString(), 
+      email: user.email,
       role: user.role 
     });
 
     // Return success response with user info
-    return res.status(200).json({ 
-      message: 'Login successful',
-      token, 
+    return res.json({ 
+      token,
       user: { 
         id: user._id, 
         email: user.email, 
         role: user.role 
-      } 
+      }
     });
   } catch (err) {
     console.error('Login error:', err);
-    return res.status(500).json({ message: 'Login failed. Please try again.' });
+    return res.status(500).json({ message: 'Login failed' });
   }
 }

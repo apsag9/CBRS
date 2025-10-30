@@ -1,37 +1,38 @@
 ﻿import { Router } from 'express';
 import { login, register } from './controllers.js';
-import { authenticate, requireRole } from './middleware.js';
+import { authenticate, requireRole, checkSessionTimeout } from './middleware.js';
 
 export const router = Router();
 
-// Public routes
+// Public routes (no authentication required)
 router.post('/auth/register', register);
 router.post('/auth/login', login);
 
-// Protected routes - require authentication
-router.use('/api', authenticate); // All routes under /api require authentication
+// Apply authentication and session timeout check to all protected routes
+router.use(authenticate); // Apply authentication to all routes below
+router.use(checkSessionTimeout); // Apply session timeout check after authentication
 
 // User routes - accessible by all authenticated users
-router.get('/api/rooms', requireRole(['user', 'admin']), (req, res) => {
+router.get('/rooms', requireRole(['user', 'admin']), (req, res) => {
   // TODO: Implement room listing
 });
-router.post('/api/bookings', requireRole(['user', 'admin']), (req, res) => {
+router.post('/bookings', requireRole(['user', 'admin']), (req, res) => {
   // TODO: Implement booking creation
 });
-router.get('/api/bookings/my', requireRole(['user', 'admin']), (req, res) => {
+router.get('/bookings/my', requireRole(['user', 'admin']), (req, res) => {
   // TODO: Implement user's booking history
 });
 
 // Admin-only routes
-router.get('/api/admin/users', requireRole(['admin']), (req, res) => {
+router.get('/admin/users', requireRole(['admin']), (req, res) => {
   // TODO: Implement user management for admins
 });
-router.post('/api/admin/rooms', requireRole(['admin']), (req, res) => {
+router.post('/admin/rooms', requireRole(['admin']), (req, res) => {
   // TODO: Implement room creation/management
 });
-router.get('/api/admin/bookings', requireRole(['admin']), (req, res) => {
+router.get('/admin/bookings', requireRole(['admin']), (req, res) => {
   // TODO: Implement all bookings view for admins
 });
-router.get('/api/admin/reports', requireRole(['admin']), (req, res) => {
+router.get('/admin/reports', requireRole(['admin']), (req, res) => {
   // TODO: Implement admin reports
 });
