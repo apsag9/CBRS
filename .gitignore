@@ -24,7 +24,7 @@ coverage/
 .DS_Store
 Thumbs.db
 
-# IDE/editor
+# IDE/editor.....
 .vscode/
 .idea/
 *.swp

@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { config } from './config.js';
 import { User } from './models.js';
+import rateLimit from 'express-rate-limit';
 
 export function checkSessionTimeout(req, res, next) {
   if (req.session && req.session.lastActivity) {
@@ -41,6 +42,9 @@ export async function authenticate(req, res, next) {
     
     next();
   } catch (err) {
+    if (err.name === 'TokenExpiredError') {
+      return res.status(401).json({ message: 'Token expired' });
+    }
     return res.status(401).json({ message: 'Invalid token' });
   }
 }
@@ -59,5 +63,21 @@ export function requireRole(roles) {
   };
 }
 
-// Example usage:
-// router.get('/admin-dashboard', authenticate, requireRole(['admin']), adminController);
+// Rate limiting middleware for general API requests
+export const generalRateLimiter = rateLimit({
+  windowMs: config.rateLimit.windowMs,
+  max: config.rateLimit.maxRequests,
+  message: { message: 'Too many requests, please try again later' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Stricter rate limiting for login attempts
+export const loginRateLimiter = rateLimit({
+  windowMs: config.rateLimit.windowMs,
+  max: config.rateLimit.loginMaxRequests,
+  message: { message: 'Too many login attempts, please try again later' },
+  standardHeaders: true,
+  legacyHeaders: false,
+  skipSuccessfulRequests: true, // Don't count successful logins
+});

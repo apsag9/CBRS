@@ -1,4 +1,6 @@
-# Conference room booking system
+# Conference Room Booking System 🏢
+
+A modern, full-stack application for managing conference room bookings in organizations and educational institutions.
 
 **Project ID:** P17  
 **Course:** UE23CS341A  
@@ -9,11 +11,20 @@
 **Section:** D  
 **Team:** Confo Champs
 
-## 📋 Project Description
+## 📋 Project Overview
 
-An app to manage a number of conference rooms in any organization including colleges.
+The Conference Room Booking System streamlines the process of managing and reserving conference rooms within organizations. Built with modern web technologies, it offers a seamless experience for both users and administrators.
 
-This repository contains the source code and documentation for the Conference room booking system project, developed as part of the UE23CS341A course at PES University.
+### Key Features
+- 📅 Easy room booking with real-time availability
+- 👥 User and admin roles with separate dashboards
+- 📊 Analytics and utilization reports
+- 📧 Email notifications for booking events
+- 📱 Responsive design for all devices
+- 🔒 Secure authentication and authorization
+- 📈 Activity logging and monitoring
+
+This repository contains the complete source code and documentation for the Conference Room Booking System, developed as part of the UE23CS341A course at PES University.
 
 ## 🧑‍💻 Development Team (Confo Champs)
 
